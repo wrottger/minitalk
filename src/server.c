@@ -6,7 +6,7 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 10:09:37 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/03 18:19:03 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/03 19:17:20 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ void	handle_sent_bit(int signal)
 
 int	main(void)
 {
-	ft_putnbr_fd(getpid(), 1);
 	signal(SIGUSR1, handle_sent_bit);
 	signal(SIGUSR2, handle_sent_bit);
+
+	write(1, "Server Started...\n", 18);
+	write(1, "PID: ", 5);
+	ft_putnbr_fd(getpid(), 1);
+	write(1, "\n", 1);
 	while (1)
 		;
 	return (0);
