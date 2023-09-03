@@ -1,4 +1,5 @@
-NAME	= fdf
+SRV_NAME	= server
+CLT_NAME	= client
 
 CC		= gcc
 CFLAGS	= -Werror -Wextra -Wall
@@ -10,17 +11,25 @@ LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 INC			=	-I ./libft/\
 
 SRC_PATH	=	src/
-SRC			=	server.c \
-				client.c
-				
+SRV_SRC		=	server.c
+CLT_SRC		=	client.c				
 
-SRCS		= $(addprefix $(SRC_PATH), $(SRC))
+SRV_SRCS	= $(addprefix $(SRC_PATH), $(SRV_SRC))
+CLT_SRCS	= $(addprefix $(SRC_PATH), $(CLT_SRC))
+
 
 OBJ_PATH	= obj/
-OBJ			= $(SRC:.c=.o)
-OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
+SRV_OBJ		= $(SRV_SRC:.c=.o)
+CLT_OBJ 	= $(CLT_SRC:.c=.o)
 
-all: $(NAME)
+SRV_OBJS	= $(addprefix $(OBJ_PATH), $(SRV_OBJ))
+CLT_OBJS	= $(addprefix $(OBJ_PATH), $(CLT_OBJ))
+
+
+all: $(SRV_NAME) $(CLT_NAME)
+
+$(SRV_NAME): $(SRV_SRCS)
+$(CLT_NAME): $(CLT_SRCS)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
@@ -33,9 +42,13 @@ $(OBJ_PATH):
 $(LIBFT):
 	@make -sC $(LIBFT_PATH)
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX) $(LIBFT) $(INC)
-	@echo "FDF ready"
+$(SRV_NAME): $(SRV_OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(SRV_NAME) $(SRV_OBJS) $(LIBFT) $(INC)
+	@echo "$(SRV_NAME) ready"
+
+$(CLT_NAME): $(CLT_OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(CLT_NAME) $(CLT_OBJS) $(LIBFT) $(INC)
+	@echo "$(CLT_NAME) ready"
 
 bonus: all
 
