@@ -6,7 +6,7 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 10:09:37 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/03 20:21:57 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:56:38 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,25 @@
 
 void	*add_bit(char **msg, size_t msg_bit_len, size_t msg_len, int bit)
 {
-	if ((msg_bit_len % 8) == 0)
+	char	*old_msg;
+
+	if (!*msg)
 	{
-		msg = ft_realloc(msg, msg_len, msg_len + 1);
+		printf("MSG uninitialized\n");
+		*msg = ft_calloc(1, 1);
 	}
-	set_bit(*msg, msg_bit_len, bit);
-	printf("%d", bit);
-	return (msg);
+	else if (((msg_bit_len) % 8) == 0)
+	{
+		printf("MSG doesn't have enough space\n");
+		old_msg = *msg;
+		*msg = malloc(sizeof(char) * (msg_len + 1));
+		ft_memcpy(*msg, old_msg, msg_len);
+		(*msg)[msg_len] = 0;
+		free(old_msg);
+	}
+	printf("setting bit %d, msg_bit_len %zu, msg_len %zu\n", bit, msg_bit_len, msg_len);
+	(*msg)[msg_len] |= ((char)bit << (msg_bit_len % 8));
+	return (*msg);
 }
 
 void	handle_sent_bit(int sig)
@@ -34,19 +46,25 @@ void	handle_sent_bit(int sig)
 	static size_t	msg_bit_len = 0;
 	size_t			msg_len;
 
-	msg_len = msg_bit_len / sizeof(char);
+	printf("Handling signal\n");
+	msg_len = (msg_bit_len) / 8;
+	printf("ADDING BIT\n");
 	if (sig == SIGUSR1)
 		add_bit(&msg, msg_bit_len, msg_len, 1);
 	if (sig == SIGUSR2)
 		add_bit(&msg, msg_bit_len, msg_len, 0);
-	if (msg[msg_len] == 0)
+	msg_bit_len++;
+	printf("msg_bitlen = %zu, msg[msg_len] = %c\n", msg_bit_len, msg[msg_len]);
+	if ((msg_bit_len) % 8 == 0 && msg[msg_len] == 0)
 	{
+		printf("MSG FINISHED\n");
 		write(1, msg, msg_len);
-		free(msg);
+		if (msg)
+			free(msg);
 		msg = NULL;
 		msg_bit_len = 0;
+		return ;
 	}
-	msg_bit_len++;
 }
 
 int	main(void)

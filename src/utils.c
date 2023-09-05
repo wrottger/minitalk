@@ -6,7 +6,7 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 18:14:49 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/03 18:25:33 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:08:30 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 	new_ptr = malloc(new_size);
 	if (new_ptr == NULL)
 	{
-		free(old_ptr);
+		if (old_ptr)
+			free(old_ptr);
 		return (NULL);
 	}
 	if (old_ptr != NULL)
@@ -33,13 +34,12 @@ void	*ft_realloc(void *old_ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
-void	set_bit(char *arr, size_t position, int bit)
+void	set_bit(char *c, size_t position, int bit)
 {
-	arr[position / sizeof(char)] |= ((char)bit << (position % sizeof(char)));
+	*c |= ((char)bit << (position));
 }
 
-int	get_bit(char *arr, size_t position, int bit)
+int	get_bit(char c, int bit)
 {
-	return (arr[position / sizeof(char)]
-		& ((char)bit << (position % sizeof(char))));
+	return (c & ((char)1 << bit));
 }
