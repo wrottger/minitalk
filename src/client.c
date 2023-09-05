@@ -6,7 +6,7 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 10:09:46 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/05 12:03:35 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:06:22 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	send_null(int pid)
 	while (i++ < 8)
 	{
 		kill(pid, SIGUSR2);
-		sleep(1);
+		usleep(100);
 	}
 }
 
@@ -42,7 +42,7 @@ int	send_message(int pid, char *message)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			sleep(1);
+			usleep(100);
 			index++;
 		}
 		message++;
