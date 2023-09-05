@@ -57,7 +57,8 @@ clean:
 	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(CLT_NAME)
+	@rm -f $(SRV_NAME)
 	@rm -f $(LIBFT_PATH)$(LIBFT_NAME)
 
 re: fclean all
