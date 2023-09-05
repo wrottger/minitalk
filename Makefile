@@ -53,7 +53,7 @@ $(CLT_NAME): $(CLT_OBJS) $(LIBFT)
 bonus: all
 
 clean:
-	@rm -rf $(OBJ_PATH)
+	@rm -rf $(CLT_OBJS) $(SRV_OBJS)
 	@make clean -C $(LIBFT_PATH)
 
 fclean: clean
