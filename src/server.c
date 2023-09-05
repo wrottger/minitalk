@@ -6,7 +6,7 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 10:09:37 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/05 12:20:44 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:33:55 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <printf.h>
-
 
 void	*add_bit(char **msg, size_t msg_bit_len, size_t msg_len, int bit)
 {
@@ -63,7 +62,6 @@ int	main(void)
 {
 	signal(SIGUSR1, handle_sent_bit);
 	signal(SIGUSR2, handle_sent_bit);
-
 	write(1, "Server Started...\n", 18);
 	write(1, "PID: ", 5);
 	ft_putnbr_fd(getpid(), 1);
