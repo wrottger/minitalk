@@ -6,15 +6,18 @@
 /*   By: wrottger <wrottger@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 10:09:46 by wrottger          #+#    #+#             */
-/*   Updated: 2023/09/05 12:06:22 by wrottger         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:20:13 by wrottger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <unistd.h>
 #include <signal.h>
-#include "utils.h"
-#include <printf.h>
+
+int	get_bit(char c, int bit)
+{
+	return (c & ((char)1 << bit));
+}
 
 void	send_null(int pid)
 {
@@ -37,7 +40,6 @@ int	send_message(int pid, char *message)
 		index = 0;
 		while (index < 8)
 		{
-			printf("%d\n", index);
 			if (get_bit(*message, index))
 				kill(pid, SIGUSR1);
 			else
