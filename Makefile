@@ -11,10 +11,8 @@ LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 INC			=	-I ./libft/\
 
 SRC_PATH	=	src/
-SRV_SRC		=	server.c \
-				utils.c
-CLT_SRC		=	client.c \
-				utils.c			
+SRV_SRC		=	server.c
+CLT_SRC		=	client.c
 
 SRV_SRCS	= $(addprefix $(SRC_PATH), $(SRV_SRC))
 CLT_SRCS	= $(addprefix $(SRC_PATH), $(CLT_SRC))
